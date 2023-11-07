@@ -1210,6 +1210,7 @@ class ObituaryHandler : StaticEventHandler
 						{
 							p = bystander;
 						}
+						else p = e.Thing.Player;
 					}
 					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." "..p.GetUserName()..DieNouns[n]);
 					return;

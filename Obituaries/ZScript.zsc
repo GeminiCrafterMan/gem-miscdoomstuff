@@ -879,7 +879,6 @@ class ObituaryHandler : StaticEventHandler
 
 		"'s fire mixtape on Soundcloud.",
 		" The Homebrew Channel.",
-		" a Shin Messenkou.",
 		" 100%ing Super Ultra Kaizo Memeio Road 128 Stars Extreme Edition Revenge [Deluxe Release]. Shoutouts to Simpleflips.",
 		" Captain Lou Albano. Hey, paizanos! It's the Super Mario Brothers Super Show!",
 		" Sponge.",
@@ -1152,7 +1151,8 @@ class ObituaryHandler : StaticEventHandler
 
 		"'s dedicated headphone blower-upperer.",
 		" $random(200,400) Minecraft mods.",
-		" Super Mario Bros. Wonder."
+		" Super Mario Bros. Wonder.",
+		" a Shin Messenkou." // This was originally from the Late 2019 version, but somehow got a duplicate number, thus was never seen and caused big problems for me when I ported this to ZScript.
 	};
 
 	// END OF NOUNS //
@@ -1172,8 +1172,8 @@ class ObituaryHandler : StaticEventHandler
 		{
 			source = e.Inflictor.target;
 		}
-		int v = random(0, (DieVerbs.size())-1);
-		int n = random(0, (DieNouns.size())-1);
+		int v = random(0, (DieVerbs.size()));
+		int n = random(0, (DieNouns.size()));
 		if (source && source.player)
 		{
 			foreach (reader : players)
@@ -1185,7 +1185,8 @@ class ObituaryHandler : StaticEventHandler
 				}
 				else
 				{
-					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." "..source.player.GetUserName()..DieNouns[(n/10)*10]);
+					// this line doesn't cut the number properly, thus resulting in the same number you originally had, and thus a bad death message: "Gemini0 was overthrown by Gemini0 Tewi Inaba."
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." "..source.player.GetUserName()..DieNouns[((n/10)*10)]);
 					return;
 				}
 			}

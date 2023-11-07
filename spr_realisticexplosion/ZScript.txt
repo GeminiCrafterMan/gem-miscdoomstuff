@@ -1,0 +1,389 @@
+class BadExplosionPlayer : DoomPlayer
+{
+	Default
+	{
+		Player.StartItem "Pistol";
+		Player.StartItem "Fist";
+		Player.StartItem "Clip", 50;
+		Player.WeaponSlot 1, "Fist", "Chainsaw";
+		Player.WeaponSlot 2, "Pistol";
+		Player.WeaponSlot 3, "Shotgun", "SuperShotgun";
+		Player.WeaponSlot 4, "Chaingun";
+		Player.WeaponSlot 5, "RocketLauncher";
+		Player.WeaponSlot 6, "PlasmaRifle";
+		Player.WeaponSlot 7, "BFG9000";
+	}
+	States
+	{
+		XDeath:
+			TNT1 A 1 A_SpawnItemEx("spr_realisticexplosion");
+			TNT1 A -1;
+			Stop;
+	}
+}
+
+class BadExplosiveBarrel : ExplosiveBarrel replaces ExplosiveBarrel
+{
+	States
+	{
+		Death:
+			BEXP A 2 Bright;
+			BEXP B 2 Bright;
+			BEXP C 2 Bright A_Scream;
+			BEXP D 2 Bright;
+			BEXP E 2 Bright;
+			BEXP F 2 Bright A_Explode;
+			BEXP G 2 Bright;
+			BEXP H 2 Bright;
+			BEXP I 2 Bright;
+			BEXP J 2 Bright;
+			BEXP K 2 Bright;
+			BEXP L 2 Bright;
+			BEXP M 2 Bright;
+			BEXP N 2 Bright;
+			BEXP O 2 Bright;
+			BEXP P 2 Bright;
+			BEXP Q 2 Bright;
+			TNT1 A 1050 Bright A_BarrelDestroy;
+			TNT1 A 5 A_Respawn;
+			Wait;
+	}
+}
+
+class BadRocket : Rocket replaces Rocket
+{
+	Default
+	{
+		DeathSound "world/barrelx";
+	}
+	States
+	{
+		Death:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticprojectileexplosion");
+			TNT1 A 0 A_Explode;
+			Stop;
+	}
+}
+
+class BadBrainRocket : BadRocket
+{
+	private static void BrainishExplosion(vector3 pos)
+	{
+		Actor boom = Actor.Spawn("BadBrainRocket", pos, NO_REPLACE);
+		if (boom)
+		{
+			boom.Vel.z = random[BrainScream](0, 255)/128.;
+			
+			boom.SetStateLabel("BrainExplode");
+			boom.bRocketTrail = false;
+			boom.SetDamage(0);	// disables collision
+			boom.tics -= random[BrainScream](0,7);
+			if (boom.tics < 1) boom.tics = 1;
+		}
+	}
+	void A_BrainScream()
+	{
+		for (double x = -280; x < +280; x += 8)
+		{
+			BrainishExplosion(Vec2OffsetZ(x, -280, (1/512.) + random[BrainExplode](0, 255) * 2));
+		}
+		A_StartSound("brain/death", CHAN_VOICE, CHANF_DEFAULT, 1., ATTN_NONE);
+	}
+	void A_BrainExplode()
+	{
+		double x = random2[BrainExplode]() / 32.;
+		Vector3 pos = Vec2OffsetZ(x, 0, 1 / 512. + random[BrainExplode]() * 2);
+		BrainishExplosion(pos);
+	}
+	States
+	{
+		Spawn:
+		BrainExplode:
+			TNT1 A 20 A_SpawnItemEx("spr_realisticexplosion");
+			TNT1 A 2 A_BrainExplode;
+			Stop;
+	}
+}
+
+class BadBossBrain : BossBrain replaces BossBrain
+{
+	private static void BrainishExplosion(vector3 pos)
+	{
+		Actor boom = Actor.Spawn("BadBrainRocket", pos, NO_REPLACE);
+		if (boom)
+		{
+			boom.Vel.z = random[BrainScream](0, 255)/128.;
+			
+			boom.SetStateLabel("BrainExplode");
+			boom.bRocketTrail = false;
+			boom.SetDamage(0);	// disables collision
+			boom.tics -= random[BrainScream](0,7);
+			if (boom.tics < 1) boom.tics = 1;
+		}
+	}
+	void A_BrainScream()
+	{
+		for (double x = -280; x < +280; x += 8)
+		{
+			BrainishExplosion(Vec2OffsetZ(x, -280, (1/512.) + random[BrainExplode](0, 255) * 2));
+		}
+		A_StartSound("brain/death", CHAN_VOICE, CHANF_DEFAULT, 1., ATTN_NONE);
+	}
+	void A_BrainExplode()
+	{
+		double x = random2[BrainExplode]() / 32.;
+		Vector3 pos = Vec2OffsetZ(x, 0, 1 / 512. + random[BrainExplode]() * 2);
+		BrainishExplosion(pos);
+	}
+	States
+	{
+		BrainExplode:
+			TNT1 A 20 A_SpawnItemEx("spr_realisticexplosion");
+			TNT1 A 2 A_BrainExplode;
+			Stop;
+		Death:
+			BBRN A 100 A_BrainScream;
+			BBRN AA 10;
+			BBRN A -1 A_BrainDie;
+			Stop;
+	}
+}
+
+class BadLostSoul : LostSoul replaces LostSoul
+{
+	Default
+	{
+		DeathSound "world/barrelx";
+	}
+	States
+	{
+		Death:
+			TNT1 A 6 A_SpawnItemEx("spr_realisticexplosion");
+			TNT1 A 12 A_Scream;
+			TNT1 A 2 A_NoBlocking;
+			Stop;
+	}
+}
+
+class BadRevenantTracer : RevenantTracer replaces RevenantTracer
+{
+	States
+	{
+		Death:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticprojectileexplosion");
+			Stop;
+	}
+}
+
+class spr_realisticexplosion : Actor
+{
+	Default
+	{
+		DeathSound "world/barrelx";
+		+NOBLOCKMAP
+		+NOGRAVITY
+	}
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 0 A_SpriteOffset(0, -32);
+			BEXP A 2 Bright A_Scream;
+			BEXP BCDEFGHIJKLMNOPQ 2 Bright;
+			Stop;
+	}
+}
+
+class spr_realisticprojectileexplosion : spr_realisticexplosion
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			BEXP A 2 Bright A_Scream;
+			BEXP BCDEFGHIJKLMNOPQ 2 Bright;
+			Stop;
+	}
+}
+
+class spr_bigrealisticexplosion : spr_realisticexplosion
+{
+	Default
+	{
+		Scale 2;
+	}
+}
+
+class BadArach : Arachnotron replaces Arachnotron
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadArchvile : Archvile replaces Archvile
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+class BadBaron : BaronOfHell replaces BaronOfHell
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadCaco : Cacodemon replaces Cacodemon
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadChgGuy : ChaingunGuy replaces ChaingunGuy
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+
+class BadCybie : Cyberdemon replaces Cyberdemon
+{
+	States
+	{
+		Death:
+			TNT1 A 0 A_SpawnItemEx("spr_bigrealisticexplosion");
+			Stop;
+	}
+}
+
+class BadPinky : Demon replaces Demon
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadImp : DoomImp replaces DoomImp
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadFatso : Fatso replaces Fatso
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadHellKnight : HellKnight replaces HellKnight
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadPainElemental : PainElemental replaces PainElemental
+{
+	States
+	{
+		Death:
+			TNT1 A 16 A_SpawnItemEx("spr_realisticexplosion");
+			TNT1 A 16;
+			TNT1 A 0 A_PainDie;
+			Stop;
+	}
+}
+
+class BadRevenant : Revenant replaces Revenant
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadShotgunGuy : ShotgunGuy replaces ShotgunGuy
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadSpectre : Spectre replaces Spectre
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadSpiderMastermind : SpiderMastermind replaces SpiderMastermind
+{
+	States
+	{
+		Death:
+			TNT1 A 0 A_SpawnItemEx("spr_bigrealisticexplosion", -32);
+			TNT1 A 0 A_SpawnItemEx("spr_bigrealisticexplosion");
+			TNT1 A 0 A_SpawnItemEx("spr_bigrealisticexplosion", 32);
+			Stop;
+	}
+}
+
+class BadWolfSS : WolfensteinSS replaces WolfensteinSS
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}
+
+class BadZombie : ZombieMan replaces ZombieMan
+{
+	States
+	{
+		XDeath:
+			TNT1 A 0 A_SpawnItemEx("spr_realisticexplosion");
+			Stop;
+	}
+}

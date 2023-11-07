@@ -1,0 +1,1224 @@
+version "4.11"
+// Obituaries, from SRB2, originally by Other Chen...
+// but now it's in ZScript!?
+class ObituaryHandler : StaticEventHandler
+{
+	static const String DieVerbs[] =
+	{
+		// Choose one line from this table, and one line from the next table (DieNouns).
+		// For example: "Other Chen got shot in the face by a wild Magikarp."
+		// The zero-ending entries (the ones at the top of each group) don't take a noun.
+
+		" died.",
+		" was made dead by",
+		" was destroyed at the hands of",
+		" was annihilated by",
+		" was displaced from existence by",
+		" is now",
+		" died and was reincarnated as",
+		" died and became",
+		" got #360No5k0p3d by",
+		" got blown up by",
+
+		" is kill.",
+		" was stabbed thirty-seven times in the chest by",
+		" was destroyed_banana'd by",
+		" was exposed to lethal radiation emanating from",
+		" was cannibalized by",
+		" has been rendered obsolete due to",
+		" suffered a hit-and-run from",
+		" got #rekt by",
+		" got smashed by",
+		" became bored to death by listening to",
+
+		" lost the game.",
+		" was cleaned by",
+		" was split in half by",
+		" was lynched by",
+		"'s existence was disproven by",
+		" died, came back to life, and died again, thanks to",
+		" received hugs from",
+		" was defenestrated by",
+		" was ceremoniously sacrificed by",
+		" was just trying to get to class on time, but crashed into",
+
+		" gave up.",
+		" had a little lamb, but it was eaten by",
+		" tried to get inside",
+		" REALLY loves",
+		" tried to borrow money from",
+		" just couldn't get enough of",
+		" got a Game Over (not really) because of",
+		" was ravished by",
+		" found a bomb, previously owned by",
+		" fell into a trap set by",
+
+		" had to pee REALLY bad.",
+		" fell off of",
+		" was strangled by",
+		" is under arrest for possession of",
+		"'s hard drive was wiped by",
+		"'s controller turned into",
+		"'s keyboard was smashed up by",
+		"'s mouse turned into",
+		"'s monitor is showing graphic porn starring",
+		"'s speakers were blown out by",
+
+		".health == 0.",
+		" will die after traveling into the future with",
+		" was demolished by",
+		" got teabagged by",
+		" lost a card game to",
+		" lost a danmaku battle to",
+		" lost a D-D-D-DDDDDDUEL to",
+		" was run over by",
+		" still doesn't like",
+		" got shot by",
+
+		".exe has stopped working.",
+		" is now worshipping",
+		" was triggered and offended by",
+		" was allergic to",
+		" was allergic to the adorableness of",
+		" met a terrible fate at the hands of",
+		" was licked by",
+		" was telefragged by",
+		" was poisoned by",
+		" was sent to jail, without passing GO or collecting 200 rings, by",
+
+		".sh was forcibly terminated.",
+		" tried to smoke",
+		" was accidentally by",
+		" accidentally",
+		" illegally downloaded",
+		" tried to kiss",
+		" tried to make out with",
+		"'s RP character was killed by",
+		" fell into",
+		" fell on",
+
+		" pressed Alt-F4 in real life.",
+		" got the po-po called on them by",
+		" fell through",
+		" fell out of",
+		" was burned by",
+		" was reduced to ashes by",
+		" tried to capture",
+		" lost a Pokemon battle with",
+		" lost a Smash tourney to",
+		" lost a Smash tourney because of",
+
+		" discovered internet pornography.",
+		" got shot in the face by",
+		" was given a stern lecture by",
+		" didn't die. Oh wait, yeah they did. They died because of",
+		"-senpai didn't notice",
+		" JUST DOES not BELIEVE what they saw, what  KIND OF skills even are those   stunts just pulled by",
+		" fell prey to",
+		" was poisoned by",
+		" threw up after seeing",
+		" was killed by",
+
+		" has no face.",
+		".exe conflicts with",
+		"'s face was stuffed with",
+		" ate too much of",
+		" drank too much of",
+		" tried to sleep with",
+		" tripped over",
+		" was institutionalized by",
+		" was just standing around, minding their own business, when SUDDENLY there was",
+		" went to Pen Island with",
+
+		" just can't.",
+		" lost a bet to",
+		" traveled to the planet of",
+		" overdosed on",
+		" was devoured by",
+		" was slapped in the face by",
+		" was demoted to the position of",
+		" was consumed by",
+		" was murdered by",
+		"'s head was bitten off by",
+
+		" shot themself in the foot.",
+		" was cornered by",
+		" was flim-flammed by",
+		"'s home was raided by",
+		" couldn't even",
+		" got Shrekked by",
+		" bows down to",
+		" was squashed flat by",
+		"'s entire species was eradicated by",
+		" played a game with",
+
+		" is innawoods.",
+		" got knocked the FUCK out by",
+		" was electrocuted by",
+		" was hammered by",
+		" couldn't even",
+		" is too sexy for",
+		" was banned for RPing",
+		" did something kinky involving",
+		" is dead. Long live",
+		" was kicked by",
+		// Late 2019 //
+		" is lazy as shit.",
+		" was donuted by",
+		" was bootlegged by",
+		" was overthrown by",
+		" couldn't understand",
+		" listened to",
+		" didn't watch out for",
+		" was challenged by",
+		" got his QPUs misaligned by",
+		" BLJ'd into",
+
+		" crashed Paper Mario.",
+		" completed their Pokedex with help from",
+		" didn't check out",
+		" was sent to Gay Baby Jail by",
+		" got poked in the foot by",
+		" died. Shoutouts to",
+		" was blown up by a motherfucking Deton, cleverly disguised as",
+		" was combo'd with no chance of escape by",
+		" was warned about those stairs by",
+		" got infected by",
+
+		" was an NPC.",
+		"'s group chat was nuked by",
+		" wasn't being very creative when they came up with",
+		// Early 2020 //
+		" was killed because they were scoping",
+		// Mid-2020 (July 14?) //
+		" stubbed their toe on",
+		" danced with",
+		" got stabbed by",
+		" got their kneecaps stolen by",
+		" got their kneecaps destroyed by",
+		" was hit by, was struck by,",
+
+		" had to take a shit.",
+		" got their brain smoothed out by",
+		" didn't shut their mouth long enough to look at",
+		// July 15 2020 //
+		" didn't just die, they were murdered by",
+		// January 15 2021 //
+		" touched",
+		" did all it took to get",
+		" couldn't stop listening to",
+		" was walloped by",
+		" couldn't sit through",
+		" was stream sniped by",
+
+		" undertook distribution.",
+		// January 19 2021 //
+		" tried to steal",
+		" tried and failed to steal",
+		" tried and succeeded to steal",
+		" choosing Spy, and trying to disguise as",
+		" tried to have a dance-off with",
+		" got a rail ring thrown at them by",
+		" got an explosive ring thrown at them by",
+		" had to write an essay on",
+		" wished to erase all past, present, and future instances of",
+
+		" fell into the void. Ouch! That looked like it hurt",
+		// 12 Mar 2022 //
+		" was debooted by",
+		" spent 400 years hitting a block placed by",
+
+		// 15 Oct 2023 //
+		" encountered exception", // haha funny Python joke lolol >R
+		" experienced an existential crisis thanks to", // >R
+		" had their pants ripped from them by", // >R
+		" had a Runtime Fee imposed on them by", // >R
+		"'s skills had an issue thanks to", // >R
+		" lost the game thanks to", // >R
+		" got dorded by", // Inside joke lol >R
+
+		" has encountered a problem and needs to close. We are sorry for the inconvenience.", // WINDOWS XP JOKE >R
+
+		" is now dead. Please send your regards to", // >R
+		" probably had no idea what hit them. Spoiler: it was", // >R
+		" had a no good, horrible, very bad day thanks to", // >R
+		" has been thoroughly filleted by", // >R
+		" became the bitch of", // >R
+		" got 3:45'd by", // >R
+		" probably got road raged by", // >R
+		" was sent to the Recycle Bin by", // >R
+		" had a Shift+Del moment thanks to", // >R
+
+		" got...hold on, wait for it, PPPWWWWWWWWNNNNNNEEEEEEEDDDDDDD" // lol funny old video reference >R
+	};
+
+	// END OF VERBS //
+
+	static const String DieNouns[] =
+	{
+		// The zero-ending entries (the ones at the top of each group) use the name of another player on the server.
+		// For example: "Other Chen was killed by Paper Mario's foot."
+
+		".",
+		" something.",
+		" himself.",
+		" herself.",
+		" themself.",
+		" itself.",
+		" Eggman.",
+		" Dr. Ivo Rrrobotnik!",
+		" Robotnik's mighty PINGAS.",
+		" the patriarchy.",
+
+		"'s ring.",
+		" the Illuminati.",
+		" the Ilerminarty.",
+		" Crystal Dragon Jesus.",
+		" someone in this server. Was it YOU? It WAS you, wasn't it?",
+		" Coldsteel the Hedgeheg. \"psssh...nothin personnel...kid...\"",
+		" Xx420xSWAGxMASTERxX",
+		" death_killer66",
+		" Sonic '06.",
+		" Sonic Boom: Rise of Lyric.",
+
+		" and their magic box.",
+		" the entire population of China.",
+		" a car.",
+		" Windows Vista.",
+		" iOS 7.",
+		" Google.",
+		" THE SU\ca".."P\c-".."ER\cu".."V\ca".."IR\c-".."U\cu".."S", // THE SUPERVIRUS: some letters are red or black
+		" installing Gentoo.",
+		" a homeless rat in a wheelchair.",
+		" Death itself.",
+
+		"'s computer.",
+		" a bowl of petunias.",
+		" a sperm whale.",
+		" Marvin the paranoid android.",
+		" UboaaaaaaAAAAAAAAAAAAAAAAA",
+		" a wild Magikarp.",
+		" a wild Magikarp. But nothing happened!",
+		" the CIA.",
+		" steel beams.",
+		" jet fuel.",
+
+		"'s body hair.",
+		" Batman's parents.",
+		" the goddamned Batman.",
+		" a horde of locusts.",
+		" an upset stomach.",
+		" diarrhoea, gas, and bloating.",
+		" an erection lasting more than four hours.",
+		" their own free will.",
+		" Megatron.",
+		" Optimus Prime.",
+
+		"'s face.",
+		" SPIIIDEEEEEEERS",
+		" time travel shenanigans.",
+		" timey wimey stuff.",
+		" your mom.",
+		" your dad.",
+		" someone else's parents.",
+		"OOOH GOD WHAT THE HELL IS THAT",
+		" Rick Astley.",
+		" one of those new Pokeymans.",
+
+		"'s foot.",
+		" SCP-173.",
+		" SCP-682.",
+		" SCP-055.",
+		" the lemons.",
+		" a Pootisbird.",
+		" BEES",
+		"NOT THE BEES NOT THE BEES AAAAAAAAAAA",
+		" sonic.exe",
+		" Pokemon: Ghost Black version.",
+
+		"'s butt.",
+		" goin 2fest.",
+		" going too fast.",
+		" Tails Skypatrol.",
+		" forty cakes.",
+		" forty keks.",
+		" hundreds and hundreds of rings.",
+		" all these stairs.",
+		" JELLY on this hot god",
+		" whatever  KIND OF skills those   stunts you just pulled even are",
+
+		"'s hand (still attached).",
+		" that one last ring.",
+		" that one last coin.",
+		" Sanic.",
+		" Tals.",
+		" that fucking cat.",
+		" Weegee.",
+		" the entire planet.",
+		" Uranus.",
+		" Pluto.",
+
+		"'s thrown Vomit ring.",
+		" Ganon.",
+		" Captain Falcon.",
+		" fuckin' Diddy Kong.",
+		" fuckin' Meta Knight.",
+		" fuckin' Fox.",
+		" fuckin' Marth.",
+		" fuckin' Pikachu.",
+		" fuckin' Jigglypuff.",
+		" fuckin' Ness.",
+
+		"'s good looks and grace.",
+		" someone who has really been far even as decided to use even go want to do look more like.",
+		" Milhouse.",
+		" a naked banana.",
+		" 4chan's personal army.",
+		" an hero.",
+		" OP.",
+		" their parents' basement.",
+		" Anonymous.",
+		" four hundred thousand dollars.",
+
+		"'s Pokeymans.",
+		" their own two hands.",
+		" someone else's hands.",
+		" Slenderman.",
+		" a Creeper.",
+		" adorableness.",
+		" a terrible calamity.",
+		" a horrible catastrophe.",
+		" getting an F.",
+		" getting rank E.",
+
+		"'s bare damn hands.",
+		" Sam the Mechawolf.",
+		" a technicolored donkey.",
+		" a technicolored donkey named Sam.",
+		" a technicolored donkey named Michael.",
+		" an emo teenager.",
+		" dividing by zero.",
+		" Zuper Zonic.",
+		" Zuper Zhadow.",
+		" Sonic Robo Blast 1.",
+
+		"'s gloved hands.",
+		" a sentry gun.",
+		" a dispenser.",
+		" a teleporter.",
+		" a bomb, cleverly disguised as a bomb.",
+		" an alcohol problem.",
+		" magic.",
+		" Eirin's shady new drug.",
+		" Yukari fooling around again.",
+		" a Moriya shrine conspiracy.",
+
+		"'s mother.",
+		" the Scout.",
+		" Scout's mom.",
+		" the Soldier.",
+		" Soldier's painis.",
+		" the Pyro.",
+		" the Demoman.",
+		" the Heavy.",
+		" Sascha.",
+		" the Sandvich.",
+
+		"'s pocket sand.",
+		" the Engineer.",
+		" the Medic.",
+		" the Sniper.",
+		" Jarate.",
+		" the Spy.",
+		" Windows XP.",
+		" Windows Movie Maker.",
+		" Bowser.",
+		" King Koopa.",
+
+		"'s pet rock.",
+		" God.",
+		" Sonic Riders.",
+		" nothing.",
+		" some really freaky shit.",
+		" Batman.",
+		" spiders.",
+		" a thousand bats mating randomly.",
+		" Knuckles CHAOTIX.",
+		" dying.",
+
+		" in a frilly dress.",
+		" the Ganon Cannon.",
+		" Samuel L. Motherfucking Jackson.",
+		" R\cg".."A\ci".."I\ck".."N\cd".."B\ch".."O\ct".."W\c-".."S.", // RAINBOWS in rainbow order
+		" OpenGL.",
+		" the Super Mario Bros. movie.",
+		" everyone.",
+		" drugs.",
+		" seven whole marejuanas.",
+		" having no face.",
+
+		"'s favorite underwear.",
+		" dank memes.",
+		" Froot Loops.",
+		" Falling Rock. \cu".."*thud*\c-".." That's right, Falling Rock. \cu".."*thud*",
+		" the Boy Scouts.",
+		" the Girl Scouts.",
+		" Merasmus the Magician.",
+		" Ronald Reagan.",
+		" Ronald Raygun.",
+		" all the chickens.",
+
+		"'s shitty Sonic recolor.",
+		" a broken Lua script.",
+		" a broken SOC.",
+		" ALS.",
+		" PMS.",
+		" AIDS.",
+		" Ebola.",
+		" EbolAIDS.",
+		" peaceful protest.",
+		" violent protest.",
+
+		" from State Farm.",
+		" POLE POSITION!",
+		" Twilight Sparkle.",
+		" Applejack's parents.",
+		" Sweetie Belle's cooking.",
+		" pink fluffy unicorns dancing on rainbows.",
+		" HIM.",
+		" HER.",
+		" THEM.",
+		" IT.",
+
+		"'s harsh words.",
+		" Rule 34.",
+		" Rule 63.",
+		" Rules 1 and 2.",
+		" talking about Fight Club",
+		" talking about /b/.",
+		" /b/.",
+		" Boxxy, the queen of /b/.",
+		" Kat, the new queen of /b/.",
+		" these motherfucking snakes on this motherfucking plane.",
+
+		"'s secret RedTube account.",
+		" Facebook.",
+		" Mark Zuckerberg.",
+		" MySpace.",
+		" OKCupid.",
+		" crying a lot.",
+		" an entire pint of ice cream.",
+		" an adult bookstore.",
+		" a 55-gallon drum of water-based lubricant.",
+		" a 20-pound gummy bear.",
+
+		", slowly and deliberately.",
+		" a 40-pound box of rape.",
+		" fruit salad (yummy yummy).",
+		" tentacles, with more tentacles with which to tentacle their tentacles.",
+		" tentacles.",
+		" consentacles.",
+		" something that is not round.",
+		" the Invisible Pink Unicorn.",
+		" Buck Fitches.",
+		" Mitt Gunny.",
+
+		" and Knuckles.",
+		" Mitt Romney.",
+		" R-Money: Bindas Fulla Women.",
+		" Mitt \"Da Binda Keepah\" Romney.",
+		" Arnold Schwarzenegger",
+		" one of Taylor Swift's exes.",
+		" the Outsiders.",
+		" an inside job.",
+		" a bear.",
+		" punching a bear in the face.",
+
+		"'s fat stacks.",
+		" reasons.",
+		" Kim Jong-il.",
+		" the Kim Jong-illest.",
+		" Kim Jong-un.",
+		" Korean Jesus.",
+		" the Flying Spaghetti Monster.",
+		" Train Simulator 2015.",
+		" Goat Simulator.",
+		" Surgeon Simulator 2013.",
+
+		"'s fashion sense.",
+		" Snoop Dogg.",
+		" Snoop Lion.",
+		" Snoop, fo' shizzle.",
+		" Snoopy the dog.",
+		" GIRUGAMESH.",
+		" 80's hairstyles.",
+		" 70's fashion sense.",
+		" insurmountable amounts of FABULOOOUUUUSSSSS!!!!!!",
+		" an insurmountable waist-height fence.",
+
+		" the Hedgehog.",
+		" Bill Nye the science guy.",
+		" Patrick Bateman.",
+		" the doubles guy.",
+		" the Taxmaster.",
+		" Billy Mays.",
+		" the Big City Toilet.",
+		" four easy payments of only $19.95.",
+		" Mitch Hedberg.",
+		" Bob Marley.",
+
+		"'s armpit hair.",
+		" a fairy princess.",
+		" seven Koopa hotels.",
+		" armpit hair.",
+		" a magical girl.",
+		" a Klondike bar.",
+		" hats.",
+		" a planet of hats.",
+		" Trixie Tang.",
+		" Timmy Turner's mom.",
+
+		" 64 Advance.",
+		" Elmer Fudd.",
+		" Burger King.",
+		" diabeetus.",
+		" a YLYL thread.",
+		" paper bags.",
+		" Mr. Monopoly.",
+		" a total retard.",
+		" a potato.",
+		" an extra chromosome.",
+
+		"'s cheating AI.",
+		" Dinkleberg.",
+		" HAAAAAAAAAX!",
+		" Dr. HAAAAAAAAAX!",
+		" Dr. Bees.",
+		" a swarm of bees.",
+		" a spooky scary skeleton.",
+		" mr skeltal",
+		" Mr. Bones' Wild Ride.",
+		" BOOONESAW.",
+
+		"'s drug stash.",
+		" an alien.",
+		" an ayylien.",
+		" a girl who's obviously trans.",
+		" Inglip.",
+		" bad rage comics.",
+		" racist rage comics.",
+		" a narwhal baconing.",
+		" Snoo.",
+		" 9gag.",
+
+		"'s panties.",
+		" IA32 assembly.",
+		" zeros and ones.",
+		" C++.",
+		" Python.",
+		" Monty Python.",
+		" the Black Knight.",
+		" the Holy Hand Grenade.",
+		" a \cu".."blue \c-".."and \cf".."black \c-".."dress.",
+		" a \ch".."white \c-".."and \cu".."gold \c-".."dress.",
+
+		" in the parlor with the knife.",
+		" Java.",
+		" Microsoft Sam.",
+		" Internet Explorer 6.",
+		" humans -- or were they dancer?",
+		" whoever phone was.",
+		" Pokemon: Lost Silver.",
+		" Modern Warfare 2.",
+		" Chex Quest.",
+		" E.T. for the Atari 2600.",
+
+		", Attorney at Law.",
+		" Final DOOM.",
+		" Touhou Koumakyou ~ the Embodiment of Scarlet Devil.",
+		" Ice Sign \"Icicle Fall\".",
+		" Chris Hansen.",
+		" the TOR network.",
+		" George Zimmerman.",
+		" Chris Dorner.",
+		" Eric Harris.",
+		" Dylan Klebold.",
+
+		", M.D.",
+		" Jigsaw.",
+		" Shrek.",
+		" Vladimir Makarov.",
+		" President Putin.",
+		" Prime Minister Putin.",
+		" Cho Seung-Hui.",
+		" Adam Lanza.",
+		" DEEZ NUTS.",
+		" balls.",
+
+		" the Mechawolf.",
+		" a garden gnome.",
+		" Nicholas Cage.",
+		" Tapper the arcade bartender.",
+		" cancer.",
+		" medical malpractice.",
+		" a dominatrix.",
+		" medical marijuana.",
+		" something really kinky.",
+		" a Christmas present that was opened on December 23.",
+
+		" the Vampire Slayer.",
+		" Heath Ledger.",
+		" Kurt Cobain.",
+		" Budd Dwyer.",
+		" Madotsuki.",
+		" Urotsuki.",
+		" Sabitsuki.",
+		" Chie.",
+		"... er, what was it again?",
+		" secure tripcodes.",
+
+		"'s post.",
+		" /b/.",
+		" /a/.",
+		" /k/.",
+		" /d/.",
+		" /vg/.",
+		" /x/.",
+		" /lgbt/.",
+		" /ubuu/.",
+		" /mlp/.",
+
+		" of Nazareth.",
+		" Chen.",
+		" Cirno.",
+		" (9).",
+		" Yuuka Kazami.",
+		" PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY PUPPY!",
+		" a kitten.",
+		" a dead cat.",
+		" cats with captions stapled onto their faces.",
+		" cat videos.",
+
+		", the last airbender.",
+		" Darude: Sandstorm.",
+		" Sarude: Dandstorm.",
+		" Stadude: Randsorm.",
+		" smallpox.",
+		" bigpox.",
+		" shingles.",
+		" roofies.",
+		" Mine Turtle.",
+		" Desmond the Moon Bear.",
+
+		", who aculy is dolan.",
+		" Mickey Mouse.",
+		" Mikey Moose.",
+		" Dolan Duk.",
+		" Baman.",
+		" Piderman.",
+		" a Spiderman thread.",
+		" Wingardium Leviosa.",
+		" Wingardium Levioh-suh.",
+		" Wingardium Levio-SAAAH.",
+
+		"'s cooking.",
+		" a toilet.",
+		" sittin' on the toilet.",
+		" the Debbies.",
+		" Freddy Fazbear.",
+		" 93MB of .rar files.",
+		" Princess Elsa.",
+		" Princess Anna.",
+		" Baymax.",
+		" Godzilla.",
+
+		"'s art skills.",
+		" the kitchen sink.",
+		" everything but the kitchen sink.",
+		" Akarin~",
+		" Scatman John.",
+		" John Lajoie.",
+		" the best song ever made in the world.",
+		" a soup can.",
+		" a dispentry.",
+		" Christian Brutal Sniper.",
+
+		": FATALITY.",
+		" Buck Fitches, Futtbucker Extraordinaire.",
+		" the New Triple Cheeseburger.",
+		" GARBAGE DAY!",
+		" the smell of napalm in the morning.",
+		" accidentally a word.",
+		" accidentally a word and alsosome of the punctuationand spaces",
+		" SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACE",
+		" Skynet.",
+		" DA CHOPPA.",
+
+		" the Terrible.",
+		" Linux.",
+		" Ubuntu.",
+		" a messed-up BIOS.",
+		" free open-source software.",
+		" shareware.",
+		" a 14-day free trial.",
+		" the Jesus Christ Sponge.",
+		" the WTF Blanket.",
+		" the WTF Blanket: Dead Animal Edition.",
+
+		"'s FANTASTIC new product.",
+		" Miley Cyrus.",
+		" Lady GaGa.",
+		" unique New York.",
+		" a quick movement of the enemy that would jeapordize six gunboats.",
+		" a quick brown fox that just jumped over a lazy dog.",
+		" a jackdaw that loves my big sphinx of quartz.",
+		" CRACK BABY CRACK BABY",
+		" yaoi.",
+		" yuri.",
+
+		". And that's terrible.",
+		" Danbooru.",
+		" Veebooru.",
+		" the old WildCritters.",
+		" ClubStripes.",
+		" Derpibooru.",
+		" the old Ponibooru.",
+		" xkcd.",
+		" Randall Munroe.",
+		" a Pootispenser.",
+
+		"-chan.",
+		" Curly Brace's panties.",
+		" a soldier from the surface.",
+		" the Bloons.",
+		" goddamn camo-lead Bloons.",
+		" Super Monkey.",
+		" a Werewolf. Their role was Investigator.",
+		" a member of the Mafia. We could not find a last will.",
+		" a Serial Killer. Their role was Doctor.",
+		" an Arsonist. We could not find a last will.",
+
+		"-kun.",
+		" onii-chan~ (WHO SAID THAT)",
+		" Encyclopedia Dramatica.",
+		" Silk Road.",
+		" John Wilkes Booth.",
+		" Lee Harvey Oswald.",
+		" Mark David Chapman.",
+		" James Earl Ray.",
+		" James Earl Jones.",
+		" Don LaFontaine.",
+
+		", because why the hell not?",
+		" Xander Mobus.",
+		" Masahiro Sakurai.",
+		" Master-Hero Samurai.",
+		" Reggie Fils-Aime.",
+		" Shigeru Miyamoto.",
+		" Mew2King.",
+		" C9.MaNg0.",
+		" Hungrybox.",
+		" aMSa.",
+
+		// Late 2019 //
+
+		"'s monitor, which was thrown at 300mph. HAAAAAX!",
+		" Doug Bowser.",
+		" Jonathan Joestar.",
+		" Joseph Joestar.",
+		" Jotaro Kujo.",
+		" Josuke Higashikata.",
+		" Giorno Giovanna.",
+		" Jolyne Kujo.",
+		" Johnny Joestar.",
+		" fuckin' Mega Man.",
+
+		"'s pudding.",
+		" an enemy Stand!",
+		" 68K assembly.",
+		" the AS compiler for 68K. AS, more like ASS.",
+		" the Git disassemblies of all these goddamn Sonic games. What an idiot!",
+		" Christian Whitehead.",
+		" Bowsette rule 34.",
+		" A.J. Freda.",
+		" Omega Tom Hanks.",
+		" Omega Tiger Woods.",
+
+		"'s shitty K-Mart Wi-Fi.",
+		" Time Flux Sonic.",
+		" Billy Hatcher's gint eggs. G.I.N.T. E.G.G.!",
+		" Ristar.",
+		" nuts.wad.",
+		" Sonic XE.",
+		" Jim Carrey.",
+		" Jim Carrey's fat suit.",
+		" Eggman's giant golden nipples.",
+		" fuckin' Joker.",
+
+		"'s rawket lawnchair!",
+		" Sonic Advance 2's special stage system.",
+		" the Sonic 2 special stage half pipe.",
+		" Leslie Hall's body rolls.",
+		" UwU.",
+		" OwO.",
+		" Doom Guy.",
+		" the motherfucking Wii U crashing again. BZZZZZZZZZZ-",
+		" furry stripteasing.",
+		" Skype for Business.",
+
+		"'s last surprise.",
+		" cartridge tilting.",
+		" a misaligned QPU.",
+		" the Bag Raiders.",
+		" Toto.",
+		" Yes.",
+		" Yes - Roundabout.",
+		" SonicFreak94.",
+		" Mega Man Battle Network.",
+		" Discord - Chat for Gamers.",
+
+		"'s fire mixtape on Soundcloud.",
+		" The Homebrew Channel.",
+		" a Shin Messenkou.",
+		" 100%ing Super Ultra Kaizo Memeio Road 128 Stars Extreme Edition Revenge [Deluxe Release]. Shoutouts to Simpleflips.",
+		" Captain Lou Albano. Hey, paizanos! It's the Super Mario Brothers Super Show!",
+		" Sponge.",
+		" Pretzel.",
+		" Wario's Aunt Bertrude. Wah.",
+		" a clown in space. Honk.",
+		" Articles 11 and 13.",
+		" a singularity.",
+
+		"'s furry ERP discord server.",
+		" John Madden. Aeiou.",
+		" a motherfucking Deton.",
+		" maverick Zero.",
+		" Nightmare Zero.",
+		" spoilers.",
+		" Other Chen.",
+		" Gemini the Roleplayer.",
+		" Gemini Man.",
+		" Gutsman's ass. DUNUNNNNN-",
+
+		" the Roleplayer.",
+		" DOOM.",
+		" The Ultimate DOOM.",
+		" DOOM II: Hell On Earth.",
+		" DOOM II: The Master Levels.",
+		" Doom 3.",
+		" Doom 3: BFG Edition.",
+		" Quake III Arena.",
+		" Mega Man 8-Bit Deathmatch.",
+		" JoJo's Bizarre Adventure: Heritage for the Future.",
+
+		"'s Stand.",
+		" a Hamon master.",
+		" Will A. Zeppeli. HEY, BABY!",
+		" a stone cross. SHIIIIZAAAAAAAAAAA-",
+		" Elon Musk.",
+		" DIOOOOOOOO-!",
+		" Hellshots Golf.",
+		" Russian Overkill.",
+		" Guncaster. Here be dragons.",
+		" The Adventures of Square.",
+
+		"'s Super Shotgun.",
+		" a SFGHQ member.",
+		" this one.",
+		" DOOM (2016).",
+		" saving up to 60% on Adobe Creative Cloud.",
+		" getting the succ.",
+		" insulting Josuke(4)'s hair. \"What the hell did you just say about my hair!?\"",
+		" Dio Brando.",
+		" the Pillar Men.",
+		" DIO.",
+
+		"'s shitty Sonic ROM hack.",
+		" Yoshikage Kira.",
+		" the matured Kira.", // originally said DAISAN NO BAKUDAN! BITES ZA DUSTO! but dat cringe as hell
+		" Diavolo. HOW DOES KING CRIMSON WORK!?",
+		" Doppio. Ring, ring, ring, ring! Oh look, a phone!",
+		" Father Pucci. He reset the universe for gay!",
+		" Diego Brando. Fuckin' velociraptors.",
+		" Funny Valentine. Dojyaaaan~",
+		" the fact that JoJolion doesn't have a villain yet. In 2019.", // unfortunately outdated joke
+		// New Year's 2020 (December 7th 2019) //
+		" Dr. Breen.",
+
+		"'s absolutely horrible DOOM source port, found on the Microsoft Store.",
+		" e621.",
+		" this biptches choice ASS.",
+		// Mid-2020 (July 14?) //
+		" Karen.",
+		" DOOM Eternal.",
+		" a bowl of Chef Boyardee that was microwaved for three minutes and thirty seconds instead of one minute.",
+		" a bowl of Chef Boyardee Beefaroni.",
+		" the corner of the glass coffee table.",
+		" MotorRoach.",
+		" a smooth criminal.",
+
+		"'s 1000 degree knife.",
+		" a moose genital.",
+		" truck.",
+		" truck-kun.",
+		" HyperMysteriousShadonic123311.",
+		" Super Mystic Sonic.",
+		" Hyper Mystic Sonic.",
+		" Ember. All hail the bee.",
+		" a Flicky in Hide and Seek.",
+		" Tectoy.",
+
+		"'s smooth-brained cat.",
+		" America.",
+		" Brazil.",
+		" Europe.",
+		" TNT: Evilution.",
+		" The Plutonia Experiment.",
+		" Russia.",
+		" obituaries.lua.",
+		" obituariesnewyears2020.lua.",
+		" ObituariesMid2020.lua.",
+
+		"'s wad.",
+		// July 15 2020 //
+		" EA.",
+		" Ubisoft.",
+		" Activision.",
+		" Blizzard.",
+		" Bethesda.",
+		" 2K Games.",
+		" Rockstar Games.",
+		" Nintendo.",
+		" SEGA.",
+
+		"'s fat stacks of cash.",
+		" Sony.",
+		" Microsoft.",
+		" Valve.",
+		" UglyKnux.",
+		" AJ \"SSNTails\" Freda.",
+		" \caTHE DOOM SLAYER.",
+		" \cuRealm667.",
+		" the Universal Media Group.",
+		" Mad Catz.",
+		// January 15 2021 //
+		"'s server pk3.",
+		" Frank.",
+		" Gerald.",
+		" Gerald Black.",
+		" Wogello.",
+		" Rockman X DiVE.",
+		" cl_Shadow-v1.pk3.",
+		" cl_Shadovv-v1.pk3.", // Great, another anti-piracy meme. Not like those are getting stale.
+		" na no.",
+		" the world's largest chicken nugget.",
+
+		"'s perfect math class.",
+		" Cyberpunk 2077.",
+		" Sweet Bro.",
+		" Hella Jeff.",
+		" Sweet Bro and Hella Jeff.",
+		" Geromy.",
+		" Engineer Gaming.",
+		" THE J",
+		" the JoJ.",
+		" the SEGA Pico.",
+
+		"'s girlfriend.",
+		" the fact that it's Spooky Month.",
+		" Reimu Hakurei.",
+		" Marisa Kirisame.",
+		" all these damn toohoos.",
+		" Youmu Konpaku.",
+		" Cirno.",
+		" Yukari Yakumo.",
+		" a whole pack of robots!",
+		" being late.",
+
+		"'s wiggling eyebrows.",
+		" Cut Man.",
+		" Elec Man.",
+		" Guts Man.",
+		" Fire Man.",
+		" Ice Man.",
+		" Bomb Man.",
+		" Time Man.",
+		" Oil Man.",
+		" the Yellow Devil.",
+
+		"'s ex-wife.",
+		" Metal Man.",
+		" Air Man.",
+		" Wood Man.",
+		" Heat Man.",
+		" Bubble Man.",
+		" Crash Man.",
+		" Flash Man.",
+		" Quick Man.",
+		" the Boobeam trap.",
+
+		"'s space hamburger.",
+		" Top Man.",
+		" Needle Man.",
+		" Gemini Man.",
+		" Spark Man.",
+		" Shadow Man.",
+		" Hard Man.",
+		" Magnet Man.",
+		" Snake Man.",
+		" 15-Minute Break Man.",
+
+		"'s lemons.",
+		" Drill Man.",
+		" Dive Man.",
+		" Toad Man.",
+		" Pharaoh Man.",
+		" Skull Man.",
+		" Bright Man.",
+		" Dust Man.",
+		" Ring Man.",
+		" Dr. Cossack.",
+
+		"'s Ring Thing.",
+		" Gravity Man.",
+		" Wave Man.",
+		" Stone Man.",
+		" Gyro Man.",
+		" Star Man.",
+		" Charge Man.",
+		" Napalm Man.",
+		" Crystal Man.",
+		" the smell of napalm in the morning.",
+
+		"'s terrible whistling.",
+		// January 19 2021 //
+		" Patchouli Knowledge.",
+		" one of Patchouli's books.",
+		" 290 Minecraft mods.",
+		" Sonic the Hedgehog (16-bit).", // lol sonic 1 rereleases/ports
+		" Sonic the Hedgehog (8-bit).",
+		" Sonic the Hedgehog Genesis (GBA).",
+		" Sonic the Hedgehog (J2ME).",
+		" Sonic's Ultimate Genesis Collection.", // not-so-ultimate
+		" Rin Satsuki.", // how'd you get killed by something that doesn't exist
+
+		"'s incredible luck in speedruns that is definitely not cheated at all. Definitely.", // lol @ dream
+		" Cybershell.",
+		" Cyber's Hell.",
+		" a broken dining room chair.",
+		" popcorn ceilings.",
+		// Yo! 05/14/21!! //
+		" Fujiwara no Mokou.",
+		" Reisen Udongein Inaba.",
+		" Bank Bill.", // used to be 777, " getting a jackpot in a slot machine.",
+		" Ray \"FAttY SPiNS\" William \"Your Favorite Martian\" Johnson.",
+		" Tewi Inaba.",
+
+		"'s finger guns that shoot actual bullets.", // another Reisen joke...
+		" Clownpiece.", // werning
+		// 12 Mar 2022 //
+		" Sonic Debut.",
+		" RadiantNexus.",
+		" Zone Builder Setup.exe.",
+		" Sonic 1 Definitive.",
+		" Mario's render from Super Smash Bros. Brawl for the Nintendo Wii.",
+		" getting a jackpot in a slot machine.", // hey look since i added more i can re-add this one
+		" SkyFactory 4.",
+		" the 10 Luigis stored 1000 units under the map.",
+
+		"'s shoe.",
+		" my shoe. Yeah, that's right, ME. I kicked your ass.",
+		" 101.3MB of broken Minecraft seeds. (Do Not Open in Notepad)",
+		" Sonic the Hedgehog: Isle of Magnetic Artifacts.",
+		// 15 Oct 2023 //
+		" some bullshit.", // >R
+		" Alexander Graham Bell. From beyond the grave. Somehow.", // >R
+		" the Garbage™ and associates.", // another injoke >R
+		" Sonic Utopia.", // >R
+		" CircleJerks.", // >R
+		" Reddit.", // >R
+
+		" and maybe something else. My money's on bullshit.", // lol >R
+		// 16 Oct 2023 - all of these were written by Gem //
+		" Sonic Origins.",
+		" Sonic Frontiers.",
+		" Sonic Origins Plus.",
+		" Sonic Superstars.",
+		" 1 grit sandpaper.",
+		" the Chord Mojo.",
+		" the iFi iDSD Diablo.",
+		" the Chord Mojo 2.",
+		" the Maraca Cracker 9000.",
+
+		"'s dedicated headphone blower-upperer.",
+		" $random(200,400) Minecraft mods.",
+		" Super Mario Bros. Wonder."
+	};
+
+	// END OF NOUNS //
+
+	Actor source;
+	Actor reader;
+	override void WorldThingDied(WorldEvent e)
+	{
+		PlayerInfo player = e.thing.player;
+		if (!player)
+		{
+			return;
+		}
+		CVar obitsEnabled = CVar.GetCVar('obituaries', player);
+		if (!obitsEnabled || !obitsEnabled.GetBool()) return;
+		if (e.Inflictor)
+		{
+			source = e.Inflictor.target;
+		}
+		int v = random(0, (DieVerbs.size())-1);
+		int n = random(0, (DieNouns.size())-1);
+		if (source && source.player)
+		{
+			foreach (reader : players)
+			{
+				if ((v % 10) == 0)
+				{
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." It was all "..source.player.GetUserName().."'s fault.");
+					return;
+				}
+				else
+				{
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." "..source.player.GetUserName()..DieNouns[(n/10)*10]);
+					return;
+				}
+			}
+		}
+		else
+		{
+			foreach (reader : players)
+			{
+				if ((v % 10) == 0)
+				{
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v]);
+					return;
+				}
+				else if ((n % 10) == 0)
+				{
+					playerinfo p;
+					double d = 65535; // 16-bit int limit... i don't think a doom map will need the 32-bit limit
+					foreach (bystander : players)
+					{
+						if (e.Thing.CheckProximity("PlayerPawn", d, flags: CPXF_SETTRACER|CPXF_CLOSEST))
+						{
+							p = bystander;
+						}
+					}
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v].." "..p.GetUserName()..DieNouns[n]);
+					return;
+				}
+				else
+				{
+					console.printf(e.Thing.player.GetUserName()..DieVerbs[v]..DieNouns[n]);
+					return;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,11 @@
+map MAP01 "Generic fucking tech base"
+{
+    music = D_ARGFAC    // "Argent Facility" from... Doom 2016, I think?
+    sky1 = "RSKY1"
+    author = "Gemini0"
+}
+
+DoomEdNums
+{
+    20001 = TacticalShotgun
+}

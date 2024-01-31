@@ -1,0 +1,15 @@
+map MAP01 "Ice-Cold Industry"
+{
+	sky1 = "OSKY28"
+	music = "D_ISCAPE" // "Icescape" by ProjectFM
+}
+DoomEdNums
+{
+  20001 = SnowSpawner
+  20002 = CleanLog
+  20003 = CharredLog
+  20004 = BurningLog
+  20005 = EmberLog
+  20006 = CutLog
+  20007 = IceShotgun
+}

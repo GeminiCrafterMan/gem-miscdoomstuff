@@ -1,0 +1,2 @@
+// Weapons
+#include "ZScript/Weapons/TacticalShotgun.zs"

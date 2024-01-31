@@ -1,0 +1,7 @@
+Name: TacticalShotgun
+Class: 5
+Type: Hitscan
+Palette: Doom
+Summon: TacticalShotgun
+Ammo Type: Shell
+AltFire: Yes

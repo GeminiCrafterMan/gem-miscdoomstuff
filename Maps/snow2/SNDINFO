@@ -1,0 +1,14 @@
+weapons/IMGRaise	IMGARAIS
+weapons/IMGCok		IMGACOK
+weapons/IMGHit		IMGAHIT
+weapons/IMGMiss		IMGAMISS
+weapons/IMGThrust	IMGATHRU
+weapons/axecut		SPLICE
+weapons/axebang		CLANG
+weapons/axeswing	SWISH
+weapons/iceshot		DSICESHT
+weapons/icehit		DSICEHIT
+weapons/iceshgn		DSICESGN
+silent DSEMPTY //only in new Zdooms
+doors/WoodOpen		DOOR1OPN
+doors/WoodClose		DOOR1CLO

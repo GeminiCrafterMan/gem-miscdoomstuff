@@ -4,6 +4,8 @@ This file will be descriptions/backstories of all the maps here, likely in order
 	A broken port of my friend Poly's old SRB2 Match map "Hexagonal Sector". Objects don't show up, probably because I didn't assign any skill levels to them when converting from SRB2.
 Might complete this at a later date.
 
+"Warehouse_7-01-19.wad", "Warehouse_7-02-19.wad", "Warehouse_7-03-19.wad" - MAP01 (incomplete)
+	Incomplete versions of Warehouse.wad. Features missing level design, a MIDI version of Gravity Beetle's theme instead of a VGM rip, and less content.
 "Warehouse.wad" - MAP01, MAP02 (incomplete)
 	A map I mostly created on my own, but with some assistance near the end by Skull, who now has a game of his own called "On Your Hands". It's on Steam.
 Includes FAR too many Realm667 assets, and a VGM rip of Gravity Beetle's theme from Mega Man X3, probably from Zophar's Domain.
